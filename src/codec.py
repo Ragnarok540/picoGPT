@@ -4,8 +4,8 @@ from input import Input
 class Codec:
     def __init__(self, chars):
         self.chars = chars
-        self.stoi = {ch: i for i, ch in enumerate(chars)}
-        self.itos = {i: ch for i, ch in enumerate(chars)}
+        self.stoi = {ch: i for i, ch in enumerate(self.chars)}
+        self.itos = {i: ch for i, ch in enumerate(self.chars)}
 
     def encode(self, string):
         return [self.stoi[c] for c in string]
@@ -15,7 +15,7 @@ class Codec:
 
 
 if __name__ == '__main__':
-    i = Input('input.txt')
-    c = Codec(i.chars)
-    print(c.encode('hi there'))
-    print(c.decode(c.encode('hi there')))
+    input = Input('input.txt')
+    codec = Codec(input.chars)
+    print(codec.encode('hi there'))
+    print(codec.decode(codec.encode('hi there')))

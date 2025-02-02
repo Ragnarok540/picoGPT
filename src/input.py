@@ -7,6 +7,6 @@ class Input:
 
 
 if __name__ == '__main__':
-    i = Input('input.txt')
-    print(i.chars)
-    print(i.vocab_size)
+    input = Input('input.txt')
+    print(input.chars)
+    print(input.vocab_size)
