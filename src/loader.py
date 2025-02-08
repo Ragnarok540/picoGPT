@@ -10,8 +10,8 @@ class Loader:
         self.n = int(train*len(self.data))
         self.train_data = self.data[:self.n]
         self.val_data = self.data[self.n:]
-        self.batch_size = 32
-        self.block_size = 8
+        self.batch_size = 64 #32
+        self.block_size = 256 #8
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     def get_batch(self, split):
