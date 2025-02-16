@@ -1,5 +1,5 @@
 from input import Input
-from base_tokenizer import BaseTokenizer
+from base_tokenizer import BaseTokenizer, Vector
 
 
 class Tokenizer(BaseTokenizer):
@@ -7,7 +7,7 @@ class Tokenizer(BaseTokenizer):
     def __init__(self):
         super().__init__()
 
-    def train(self, text, vocab_size, verbose=False):
+    def train(self, text: str, vocab_size: int, verbose: bool = False) -> None:
         assert vocab_size >= 256
         num_merges = vocab_size - 256
 
@@ -32,14 +32,16 @@ class Tokenizer(BaseTokenizer):
         self.merges = merges
         self.vocab = vocab
 
-    def decode(self, ids):
+    def decode(self, ids: Vector) -> str:
         text_bytes = b"".join(self.vocab[idx] for idx in ids)
         text = text_bytes.decode("utf-8", errors="replace")
+
         return text
 
-    def encode(self, text):
+    def encode(self, text: str) -> Vector:
         text_bytes = text.encode("utf-8")
         ids = list(text_bytes)
+
         while len(ids) >= 2:
             stats = BaseTokenizer.get_stats(ids)
             pair = min(stats, key=lambda p: self.merges.get(p, float("inf")))
@@ -49,6 +51,7 @@ class Tokenizer(BaseTokenizer):
 
             idx = self.merges[pair]
             ids = BaseTokenizer.merge(ids, pair, idx)
+
         return ids
 
 
@@ -56,9 +59,10 @@ if __name__ == '__main__':
     input = Input('input.txt')
     tokenizer = Tokenizer()
     tokenizer.train(input.text, 400, True)
+    # tokenizer.save('400bpe')
     print(tokenizer.merges)
     print(tokenizer.vocab)
-    test = "this is a text I have now for you there"
+    test = 'this is a text I have now for you there'
     print(test)
     test_encoded = tokenizer.encode(test)
     print(test_encoded)
