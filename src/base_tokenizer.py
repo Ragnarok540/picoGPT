@@ -1,9 +1,11 @@
 class BaseTokenizer:
 
+    Vector = list[int]
+    Pair = tuple[int, int]
+    Counts = dict[Pair, int]
+
     @staticmethod
-    def get_stats(ids: list[int],
-                  counts: dict[tuple[int, int], int] = None
-                  ) -> dict[tuple[int, int], int]:
+    def get_stats(ids: Vector, counts: Counts = None) -> Counts:
         """
         Given a list of integers, return a dictionary of counts of consecutive
         pairs. Example: [1, 2, 3, 1, 2] -> {(1, 2): 2, (2, 3): 1, (3, 1): 1}
@@ -15,7 +17,7 @@ class BaseTokenizer:
         return counts
 
     @staticmethod
-    def merge(ids: list[int], pair: tuple[int, int], idx: int) -> list[int]:
+    def merge(ids: Vector, pair: Pair, idx: int) -> Vector:
         """
         In the list of integers (ids), replace all consecutive occurrences
         of pair with the new integer token idx
